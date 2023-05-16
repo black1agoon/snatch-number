@@ -58,8 +58,13 @@ import { formatDate, getNowTime } from '@/assets/utils'
 const WXAPPCHATID = {
   '9404475': 'eyJuYW1lIjoi5a2ZIiwicGhvbmUiOiIxNTk2ODMzMjcyMCIsImFjY291bnRJZCI6MjQwNTMzNywiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjc4ODQ2NDI5NTkxfQ==./1/zHBoKV2Uk84SYuE00fy0hKzszic2forWHPyD49aE=',
   '5789034': 'eyJuYW1lIjoi6JSh5Li55YekIiwicGhvbmUiOiIxODc2NzMzOTI3NyIsImFjY291bnRJZCI6NTU5OTcxMCwiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjc5ODgxMTYzNzM1fQ==.CsVE0bEHIZ2p1uVkV7mIGWELkmuBiXkZQ/JQMftkgT8=',
-  '5336840': 'eyJuYW1lIjoi6IuP5Li96ImzIiwicGhvbmUiOiIxNTMwNTgzODU4OCIsImFjY291bnRJZCI6NTYwMTc3NywiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjc5NjI0MjAyODQ0fQ==.Ki6ru23WS60ViDLkCjoWVU4VNs/vRC90qPOnCzqwqyY='
+  '5336840': 'eyJuYW1lIjoi6IuP5Li96ImzIiwicGhvbmUiOiIxNTMwNTgzODU4OCIsImFjY291bnRJZCI6NTYwMTc3NywiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjc5NjI0MjAyODQ0fQ==.Ki6ru23WS60ViDLkCjoWVU4VNs/vRC90qPOnCzqwqyY=',
+  '5783220': 'eyJuYW1lIjoi57qq5Li954eVIiwicGhvbmUiOiIxMzc1NzM4OTk5MCIsImFjY291bnRJZCI6NTYwMDI4NSwiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjgxNzEyMjM2ODI2fQ==.rpSdozqYvVU5gCrmF5hKwxGV/YRyTGzP2GxUO3CmUWM=',
+  '8532723': 'eyJuYW1lIjoi5pu55b2mKOe7rSkiLCJwaG9uZSI6IjEzMjUwOTA2MTY2IiwiYWNjb3VudElkIjo1NjAxODA1LCJpbXBlcnNvbmF0ZWQiOmZhbHNlLCJpcCI6bnVsbCwidHMiOjE2ODE3MTI3MjYzMTh9.vQoD2HluXVeS+VA1kLkQFoQBiO8mDAaFU0OMggCnWn4=',
+  '5836651': 'eyJuYW1lIjoi5aSn6IOGIiwicGhvbmUiOiIxNTg1ODM2NjI2MSIsImFjY291bnRJZCI6NjY1MTgzOSwiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjg0MjIyOTIxMDI2fQ==.lxSOblLyxjSDRdV+E8B15KAu2xrfELLzKeK2AfTC6bw=',
+  '5289089': 'eyJuYW1lIjoi5aea5L2z5LyfIiwicGhvbmUiOiIxODg1ODM0MzAyMiIsImFjY291bnRJZCI6NjE4MzU1OSwiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjg0MjIzMzE4MTEzfQ==.Dul+POetim3gBE92EBy10PEyxSvrTH74lO2aWtu08PQ='
 }
+
 export default {
   name: 'HomeView',
   computed: {
@@ -81,8 +86,12 @@ export default {
       nowTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss'),
       cardContractOptions: [
         { label: '情迷', value: '9404475' },
-        { label: '蔡丹凤', value: '5789034' },
-        { label: '苏丽艳', value: '5336840' },
+        { label: '蔡', value: '5789034' },
+        { label: '苏', value: '5336840' },
+        { label: '纪', value: '5783220' },
+        { label: '曹', value: '8532723' },
+        { label: '大', value: '5836651' },
+        { label: '姚', value: '5289089' },
       ]
     }
   },
