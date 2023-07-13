@@ -1,6 +1,20 @@
 <template>
   <div class="wrapper">
     <div class="item-wrap">
+      <div class="label">选择健身房：</div>
+      <el-select v-model="gymValue"
+                 placeholder="选择健身房"
+                 :clearable="true"
+                 @change="selectChange">
+        <el-option
+            v-for="item in gymOptions"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+        </el-option>
+      </el-select>
+    </div>
+    <div class="item-wrap">
       <div class="label">选择课程：</div>
       <el-select v-model="instanceId"
                  placeholder="请选择课程"
@@ -62,7 +76,10 @@ const WXAPPCHATID = {
   '5783220': 'eyJuYW1lIjoi57qq5Li954eVIiwicGhvbmUiOiIxMzc1NzM4OTk5MCIsImFjY291bnRJZCI6NTYwMDI4NSwiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjgxNzEyMjM2ODI2fQ==.rpSdozqYvVU5gCrmF5hKwxGV/YRyTGzP2GxUO3CmUWM=',
   '8532723': 'eyJuYW1lIjoi5pu55b2mKOe7rSkiLCJwaG9uZSI6IjEzMjUwOTA2MTY2IiwiYWNjb3VudElkIjo1NjAxODA1LCJpbXBlcnNvbmF0ZWQiOmZhbHNlLCJpcCI6bnVsbCwidHMiOjE2ODE3MTI3MjYzMTh9.vQoD2HluXVeS+VA1kLkQFoQBiO8mDAaFU0OMggCnWn4=',
   '5836651': 'eyJuYW1lIjoi5aSn6IOGIiwicGhvbmUiOiIxNTg1ODM2NjI2MSIsImFjY291bnRJZCI6NjY1MTgzOSwiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjg0MjIyOTIxMDI2fQ==.lxSOblLyxjSDRdV+E8B15KAu2xrfELLzKeK2AfTC6bw=',
-  '5289089': 'eyJuYW1lIjoi5aea5L2z5LyfIiwicGhvbmUiOiIxODg1ODM0MzAyMiIsImFjY291bnRJZCI6NjE4MzU1OSwiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjg0MjIzMzE4MTEzfQ==.Dul+POetim3gBE92EBy10PEyxSvrTH74lO2aWtu08PQ='
+  '5289089': 'eyJuYW1lIjoi5aea5L2z5LyfIiwicGhvbmUiOiIxODg1ODM0MzAyMiIsImFjY291bnRJZCI6NjE4MzU1OSwiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjg0MjIzMzE4MTEzfQ==.Dul+POetim3gBE92EBy10PEyxSvrTH74lO2aWtu08PQ=',
+  '14393228': 'eyJuYW1lIjoi6YeR56eA6IqzIiwicGhvbmUiOiIxMzk1NzM3MjI0OSIsImFjY291bnRJZCI6NTU4MjQ0MSwiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjg0MjIzNzkzNjY2fQ==.vaNuEGdSNcYAGaWfctOzyDu+mk/L3mukAOf7VzPrETM=',
+  '13700132': 'eyJuYW1lIjoi5Y2O5Zut5ZutIiwicGhvbmUiOiIxMzYwNjgzNjYxNSIsImFjY291bnRJZCI6ODA1MzI3NSwiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjg0MjI0MTAyOTUwfQ==.tJkYGv/JfCk5eV1tfocVTDzVhAxKa0xllxEMNH+kAFE='
+
 }
 
 export default {
@@ -79,6 +96,7 @@ export default {
       successFlag: false,
       timer: null,
       timer2: null,
+      gymValue: '1431',
       instanceId: null,
       courseOptions: [],
       seatNumber: 6,
@@ -92,6 +110,12 @@ export default {
         { label: '曹', value: '8532723' },
         { label: '大', value: '5836651' },
         { label: '姚', value: '5289089' },
+        { label: '女', value: '14393228' },
+        { label: '园', value: '13700132' },
+      ],
+      gymOptions: [
+        { label: '解放路店', value: '1431' },
+        { label: '东湖大道店', value: '1432' },
       ]
     }
   },
@@ -99,7 +123,7 @@ export default {
     getSeat() {
       axios({
         method: 'post',
-        url: '/api/wx/groupCourse/1432/reserve/' + this.instanceId,
+        url: `/api/wx/groupCourse/${this.gymValue}/reserve/${this.instanceId}`,
         headers: {
           WXAPPCHATID: WXAPPCHATID[this.cardContractId],
         },
@@ -131,7 +155,7 @@ export default {
     },
     polling() {
       let nowTime = new Date().getTime()
-      if (nowTime > (this.targetTime - 1000 * 5)) {
+      if (nowTime > ((this.targetTime) + 1000)) {
       // if (nowTime > (this.targetTime - 1000 * 5) && nowTime < (this.targetTime + 1000 * 15)) {
         this.start()
         this.timer = setInterval(() => {
@@ -157,6 +181,7 @@ export default {
         return
       }
 
+      window.localStorage.setItem('gymValue', this.gymValue)
       window.localStorage.setItem('cardContractId', this.cardContractId)
       window.localStorage.setItem('seatNumber', this.seatNumber)
 
@@ -167,7 +192,7 @@ export default {
     getCourseList() {
       axios({
         method: 'get',
-        url: '/api/wxApp/login/1432/groupCourse/' + formatDate(new Date(), 'yyyyMMdd'),
+        url: `/api/wxApp/login/${this.gymValue}/groupCourse/${formatDate(new Date(), 'yyyyMMdd')}`,
         headers: {
           WXAPPCHATID: WXAPPCHATID[this.cardContractId],
         },
@@ -193,6 +218,7 @@ export default {
     }
   },
   mounted() {
+    this.gymValue = window.localStorage.getItem('gymValue') || this.gymValue
     this.cardContractId = window.localStorage.getItem('cardContractId') || this.cardContractId
     this.seatNumber = window.localStorage.getItem('seatNumber') || this.seatNumber
 
@@ -225,7 +251,7 @@ export default {
   align-items: center
   margin-top: 10px
   .label
-    flex: 0 0 60px
+    flex: 0 0 80px
   .el-date-picker, .el-input, .el-select
     flex: 1
 .button-wrap
