@@ -6,6 +6,11 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/:cardContractId',
+    name: 'home',
+    component: HomeView
+  },
+  {
     path: '/',
     name: 'home',
     component: HomeView

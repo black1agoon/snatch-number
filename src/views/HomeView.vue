@@ -1,19 +1,19 @@
 <template>
   <div class="wrapper">
-    <div class="item-wrap">
-      <div class="label">选择健身房：</div>
-      <el-select v-model="gymValue"
-                 placeholder="选择健身房"
-                 :clearable="true"
-                 @change="selectChange">
-        <el-option
-            v-for="item in gymOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-        </el-option>
-      </el-select>
-    </div>
+<!--    <div class="item-wrap">-->
+<!--      <div class="label">选择健身房：</div>-->
+<!--      <el-select v-model="gymValue"-->
+<!--                 placeholder="选择健身房"-->
+<!--                 :clearable="true"-->
+<!--                 @change="selectChange">-->
+<!--        <el-option-->
+<!--            v-for="item in gymOptions"-->
+<!--            :key="item.value"-->
+<!--            :label="item.label"-->
+<!--            :value="item.value">-->
+<!--        </el-option>-->
+<!--      </el-select>-->
+<!--    </div>-->
     <div class="item-wrap">
       <div class="label">选择课程：</div>
       <el-select v-model="instanceId"
@@ -41,15 +41,15 @@
     <div class="item-wrap">
       <div class="label">座位号：</div>
       <el-input type="number" @change="changeValue" v-model="seatNumber"></el-input>
-      <div class="label" style="text-align: center">谁的卡：</div>
-      <el-select v-model="cardContractId" @change="changeValue">
-        <el-option
-            v-for="item in cardContractOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-        </el-option>
-      </el-select>
+<!--      <div class="label" style="text-align: center">谁的卡：</div>-->
+<!--      <el-select v-model="cardContractId" @change="changeValue">-->
+<!--        <el-option-->
+<!--            v-for="item in cardContractOptions"-->
+<!--            :key="item.value"-->
+<!--            :label="item.label"-->
+<!--            :value="item.value">-->
+<!--        </el-option>-->
+<!--      </el-select>-->
     </div>
 
     <div class="message-wrap">
@@ -66,18 +66,17 @@
 <script>
 import axios from 'axios'
 import { formatDate, getNowTime } from '@/assets/utils'
+import { getSign } from '@/assets/sign'
 
-// const WXAPPCHATID = 'eyJuYW1lIjoi5a2ZIiwicGhvbmUiOiIxNTk2ODMzMjcyMCIsImFjY291bnRJZCI6MjQwNTMzNywiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjc4ODQ2NDI5NTkxfQ==./1/zHBoKV2Uk84SYuE00fy0hKzszic2forWHPyD49aE='
-// const WXAPPCHATID = 'eyJuYW1lIjoi6IuP5Li96ImzIiwicGhvbmUiOiIxNTMwNTgzODU4OCIsImFjY291bnRJZCI6NTYwMTc3NywiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjc5NjI0MjAyODQ0fQ==.Ki6ru23WS60ViDLkCjoWVU4VNs/vRC90qPOnCzqwqyY='
 const WXAPPCHATID = {
   '9404475': 'eyJuYW1lIjoi5a2ZIiwicGhvbmUiOiIxNTk2ODMzMjcyMCIsImFjY291bnRJZCI6MjQwNTMzNywiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjc4ODQ2NDI5NTkxfQ==./1/zHBoKV2Uk84SYuE00fy0hKzszic2forWHPyD49aE=',
-  '5789034': 'eyJuYW1lIjoi6JSh5Li55YekIiwicGhvbmUiOiIxODc2NzMzOTI3NyIsImFjY291bnRJZCI6NTU5OTcxMCwiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjc5ODgxMTYzNzM1fQ==.CsVE0bEHIZ2p1uVkV7mIGWELkmuBiXkZQ/JQMftkgT8=',
-  '5336840': 'eyJuYW1lIjoi6IuP5Li96ImzIiwicGhvbmUiOiIxNTMwNTgzODU4OCIsImFjY291bnRJZCI6NTYwMTc3NywiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjc5NjI0MjAyODQ0fQ==.Ki6ru23WS60ViDLkCjoWVU4VNs/vRC90qPOnCzqwqyY=',
-  '5783220': 'eyJuYW1lIjoi57qq5Li954eVIiwicGhvbmUiOiIxMzc1NzM4OTk5MCIsImFjY291bnRJZCI6NTYwMDI4NSwiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjgxNzEyMjM2ODI2fQ==.rpSdozqYvVU5gCrmF5hKwxGV/YRyTGzP2GxUO3CmUWM=',
-  '8532723': 'eyJuYW1lIjoi5pu55b2mKOe7rSkiLCJwaG9uZSI6IjEzMjUwOTA2MTY2IiwiYWNjb3VudElkIjo1NjAxODA1LCJpbXBlcnNvbmF0ZWQiOmZhbHNlLCJpcCI6bnVsbCwidHMiOjE2ODE3MTI3MjYzMTh9.vQoD2HluXVeS+VA1kLkQFoQBiO8mDAaFU0OMggCnWn4=',
-  '5836651': 'eyJuYW1lIjoi5aSn6IOGIiwicGhvbmUiOiIxNTg1ODM2NjI2MSIsImFjY291bnRJZCI6NjY1MTgzOSwiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjg0MjIyOTIxMDI2fQ==.lxSOblLyxjSDRdV+E8B15KAu2xrfELLzKeK2AfTC6bw=',
-  '5289089': 'eyJuYW1lIjoi5aea5L2z5LyfIiwicGhvbmUiOiIxODg1ODM0MzAyMiIsImFjY291bnRJZCI6NjE4MzU1OSwiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjg0MjIzMzE4MTEzfQ==.Dul+POetim3gBE92EBy10PEyxSvrTH74lO2aWtu08PQ=',
-  '14393228': 'eyJuYW1lIjoi6YeR56eA6IqzIiwicGhvbmUiOiIxMzk1NzM3MjI0OSIsImFjY291bnRJZCI6NTU4MjQ0MSwiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjg0MjIzNzkzNjY2fQ==.vaNuEGdSNcYAGaWfctOzyDu+mk/L3mukAOf7VzPrETM=',
+  // '5789034': 'eyJuYW1lIjoi6JSh5Li55YekIiwicGhvbmUiOiIxODc2NzMzOTI3NyIsImFjY291bnRJZCI6NTU5OTcxMCwiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjc5ODgxMTYzNzM1fQ==.CsVE0bEHIZ2p1uVkV7mIGWELkmuBiXkZQ/JQMftkgT8=',
+  // '5336840': 'eyJuYW1lIjoi6IuP5Li96ImzIiwicGhvbmUiOiIxNTMwNTgzODU4OCIsImFjY291bnRJZCI6NTYwMTc3NywiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjc5NjI0MjAyODQ0fQ==.Ki6ru23WS60ViDLkCjoWVU4VNs/vRC90qPOnCzqwqyY=',
+  // '5783220': 'eyJuYW1lIjoi57qq5Li954eVIiwicGhvbmUiOiIxMzc1NzM4OTk5MCIsImFjY291bnRJZCI6NTYwMDI4NSwiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjgxNzEyMjM2ODI2fQ==.rpSdozqYvVU5gCrmF5hKwxGV/YRyTGzP2GxUO3CmUWM=',
+  // '8532723': 'eyJuYW1lIjoi5pu55b2mKOe7rSkiLCJwaG9uZSI6IjEzMjUwOTA2MTY2IiwiYWNjb3VudElkIjo1NjAxODA1LCJpbXBlcnNvbmF0ZWQiOmZhbHNlLCJpcCI6bnVsbCwidHMiOjE2ODE3MTI3MjYzMTh9.vQoD2HluXVeS+VA1kLkQFoQBiO8mDAaFU0OMggCnWn4=',
+  // '5836651': 'eyJuYW1lIjoi5aSn6IOGIiwicGhvbmUiOiIxNTg1ODM2NjI2MSIsImFjY291bnRJZCI6NjY1MTgzOSwiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjg0MjIyOTIxMDI2fQ==.lxSOblLyxjSDRdV+E8B15KAu2xrfELLzKeK2AfTC6bw=',
+  // '5289089': 'eyJuYW1lIjoi5aea5L2z5LyfIiwicGhvbmUiOiIxODg1ODM0MzAyMiIsImFjY291bnRJZCI6NjE4MzU1OSwiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjg0MjIzMzE4MTEzfQ==.Dul+POetim3gBE92EBy10PEyxSvrTH74lO2aWtu08PQ=',
+  // '14393228': 'eyJuYW1lIjoi6YeR56eA6IqzIiwicGhvbmUiOiIxMzk1NzM3MjI0OSIsImFjY291bnRJZCI6NTU4MjQ0MSwiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjg0MjIzNzkzNjY2fQ==.vaNuEGdSNcYAGaWfctOzyDu+mk/L3mukAOf7VzPrETM=',
   '13700132': 'eyJuYW1lIjoi5Y2O5Zut5ZutIiwicGhvbmUiOiIxMzYwNjgzNjYxNSIsImFjY291bnRJZCI6ODA1MzI3NSwiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjg0MjI0MTAyOTUwfQ==.tJkYGv/JfCk5eV1tfocVTDzVhAxKa0xllxEMNH+kAFE='
 
 }
@@ -96,7 +95,7 @@ export default {
       successFlag: false,
       timer: null,
       timer2: null,
-      gymValue: '1431',
+      gymValue: '1432',
       instanceId: null,
       courseOptions: [],
       seatNumber: 6,
@@ -104,48 +103,55 @@ export default {
       nowTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss'),
       cardContractOptions: [
         { label: '情迷', value: '9404475' },
-        { label: '蔡', value: '5789034' },
-        { label: '苏', value: '5336840' },
-        { label: '纪', value: '5783220' },
-        { label: '曹', value: '8532723' },
-        { label: '大', value: '5836651' },
-        { label: '姚', value: '5289089' },
-        { label: '女', value: '14393228' },
-        { label: '园', value: '13700132' },
+        // { label: '蔡', value: '5789034' },
+        // { label: '苏', value: '5336840' },
+        // { label: '纪', value: '5783220' },
+        // { label: '曹', value: '8532723' },
+        // { label: '大', value: '5836651' },
+        // { label: '姚', value: '5289089' },
+        // { label: '女', value: '14393228' },
+        // { label: '园', value: '13700132' },
       ],
       gymOptions: [
-        { label: '解放路店', value: '1431' },
+        // { label: '解放路店', value: '1431' },
         { label: '东湖大道店', value: '1432' },
-      ]
+      ],
     }
   },
   methods: {
     getSeat() {
+      let data = {
+        cardContractId: this.cardContractId,
+        cardType: 3,
+        seatNums: [this.seatNumber],
+        reservedNum: 1,
+        version: '2.9.305'
+      }
+      this.message.push('开始抢号:' + getNowTime())
+
       axios({
         method: 'post',
-        url: `/api/wx/groupCourse/${this.gymValue}/reserve/${this.instanceId}`,
+        url: `/api/wx/groupCourse/${this.gymValue}/reserve/${this.instanceId}?sign=${getSign(data, this.instanceId)}&thirdParty=true&signKeys=cardContractId,cardType,reservedNum,seatNums,version`,
+        // https: www.forzadata.cn/api/wx/groupCourse/1432/reserve/23800686?sign=abbae6d0e5bee3bb84764bba16106b42&thirdParty=true&signKeys=cardContractId,cardType,reservedNum,seatNums,version
         headers: {
           WXAPPCHATID: WXAPPCHATID[this.cardContractId],
         },
-        data: {
-          cardContractId: this.cardContractId,
-          cardType: 3,
-          couponInstanceId: null,
-          seatNums: [this.seatNumber],
-          reservedNum: 1
-        }
+        data
       }).then(res => {
         if (res.data.data === -1) {
-          this.successFlag = true
           this.message.push('抢号成功 ' + getNowTime())
-          clearInterval(this.timer)
+          // clearInterval(this.timer)
+          clearInterval(this.timer2)
+          this.timer2 = null
         } else {
           this.message.push(res.data.message + getNowTime())
           // if (res.data.status === 1) {
           //   clearInterval(this.timer)
           // }
           if (res.data.message.includes('对不起') || res.data.message.includes('已被其他人')) {
-            clearInterval(this.timer)
+            // clearInterval(this.timer)
+            clearInterval(this.timer2)
+            this.timer2 = null
           }
         }
       })
@@ -155,18 +161,21 @@ export default {
     },
     polling() {
       let nowTime = new Date().getTime()
-      if (nowTime > ((this.targetTime) + 1000)) {
+      if (nowTime > ((this.targetTime) + 1)) {
       // if (nowTime > (this.targetTime - 1000 * 5) && nowTime < (this.targetTime + 1000 * 15)) {
         this.start()
-        this.timer = setInterval(() => {
-          if (!this.successFlag) {
-            this.start()
-          }
-        }, 500)
+        // this.timer = setInterval(() => {
+        //   if (!this.successFlag) {
+        //     this.start()
+        //   }
+        // }, 500)
         clearInterval(this.timer2)
       } else {
         clearInterval(this.timer)
-        this.message.push('还没到抢号时间 '+ getNowTime())
+        let msg = '还没到抢号时间 ' + getNowTime()
+        if (this.message.findIndex(m => m === msg) === -1) {
+          this.message.push(msg)
+        }
       }
     },
     clear() {
@@ -177,17 +186,16 @@ export default {
         alert('请先选择课程，再点击开始')
         return
       }
+      // console.log(this.timer2)
       if (this.timer2) {
         return
       }
-
       window.localStorage.setItem('gymValue', this.gymValue)
-      window.localStorage.setItem('cardContractId', this.cardContractId)
       window.localStorage.setItem('seatNumber', this.seatNumber)
 
       this.timer2 = setInterval(() => {
         this.polling()
-      }, 1000)
+      }, 1)
     },
     getCourseList() {
       axios({
@@ -210,6 +218,7 @@ export default {
       let option = this.courseOptions[index]
       let courseTime = formatDate(new Date(), 'yyyy-MM-dd ') + option.startTime + ':00'
       this.targetTime = new Date(courseTime).getTime() - option.minutesBeforeStart * 60 * 1000
+      // this.targetTime = new Date('2025-03-25 15:00:00').getTime()
     },
     changeValue() {
       clearInterval(this.timer)
@@ -219,13 +228,19 @@ export default {
   },
   mounted() {
     this.gymValue = window.localStorage.getItem('gymValue') || this.gymValue
-    this.cardContractId = window.localStorage.getItem('cardContractId') || this.cardContractId
     this.seatNumber = window.localStorage.getItem('seatNumber') || this.seatNumber
 
     this.getCourseList()
     setInterval(() => {
       this.nowTime = formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss')
     }, 1000)
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (to.params.cardContractId) {
+        vm.cardContractId = to.params.cardContractId
+      }
+    })
   }
 }
 </script>
