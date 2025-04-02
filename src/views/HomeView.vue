@@ -161,7 +161,8 @@ export default {
     },
     polling() {
       let nowTime = new Date().getTime()
-      if (nowTime > ((this.targetTime) + 1)) {
+      // console.log(nowTime)
+      if (nowTime > ((this.targetTime) + 400)) {
       // if (nowTime > (this.targetTime - 1000 * 5) && nowTime < (this.targetTime + 1000 * 15)) {
         this.start()
         // this.timer = setInterval(() => {
