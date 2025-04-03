@@ -52,6 +52,12 @@
 <!--      </el-select>-->
     </div>
 
+    <div class="item-wrap">
+      <div class="label">延迟毫秒：</div>
+      <el-input-number v-model="delayTime" :min="100" :step="100">
+      </el-input-number>
+    </div>
+
     <div class="message-wrap">
       <div class="nowTime">当前时间：{{nowTime}}</div>
       <div class="message" v-for="(msg, index) in message" :key="index">{{msg}}</div>
@@ -69,6 +75,7 @@ import { formatDate, getNowTime } from '@/assets/utils'
 import { getSign } from '@/assets/sign'
 
 const WXAPPCHATID = {
+  '28161525': 'eyJuYW1lIjoi6IOh6LaF576kIiwicGhvbmUiOiIxNTg4ODM0MzgwOCIsImFjY291bnRJZCI6MjIxODgxMDksImltcGVyc29uYXRlZCI6ZmFsc2UsImNoYW5uZWwiOm51bGwsImlwIjpudWxsLCJ0cyI6MTc0MjM3NDU2MzI3OX0=.i28+GF7iP2nWdzMt/qRGF8cGPw2tOGPnp76nmWdoaMU=',
   '9404475': 'eyJuYW1lIjoi5a2ZIiwicGhvbmUiOiIxNTk2ODMzMjcyMCIsImFjY291bnRJZCI6MjQwNTMzNywiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjc4ODQ2NDI5NTkxfQ==./1/zHBoKV2Uk84SYuE00fy0hKzszic2forWHPyD49aE=',
   // '5789034': 'eyJuYW1lIjoi6JSh5Li55YekIiwicGhvbmUiOiIxODc2NzMzOTI3NyIsImFjY291bnRJZCI6NTU5OTcxMCwiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjc5ODgxMTYzNzM1fQ==.CsVE0bEHIZ2p1uVkV7mIGWELkmuBiXkZQ/JQMftkgT8=',
   // '5336840': 'eyJuYW1lIjoi6IuP5Li96ImzIiwicGhvbmUiOiIxNTMwNTgzODU4OCIsImFjY291bnRJZCI6NTYwMTc3NywiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjc5NjI0MjAyODQ0fQ==.Ki6ru23WS60ViDLkCjoWVU4VNs/vRC90qPOnCzqwqyY=',
@@ -100,6 +107,7 @@ export default {
       courseOptions: [],
       seatNumber: 6,
       cardContractId: '9404475',
+      delayTime: 200,
       nowTime: formatDate(new Date(), 'yyyy-MM-dd hh:mm:ss'),
       cardContractOptions: [
         { label: '情迷', value: '9404475' },
@@ -125,7 +133,7 @@ export default {
         cardType: 3,
         seatNums: [this.seatNumber],
         reservedNum: 1,
-        version: '2.9.305'
+        version: '2.9.305',
       }
       this.message.push('开始抢号:' + getNowTime())
 
@@ -162,7 +170,7 @@ export default {
     polling() {
       let nowTime = new Date().getTime()
       // console.log(nowTime)
-      if (nowTime > ((this.targetTime) + 400)) {
+      if (nowTime > ((this.targetTime) + this.delayTime)) {
       // if (nowTime > (this.targetTime - 1000 * 5) && nowTime < (this.targetTime + 1000 * 15)) {
         this.start()
         // this.timer = setInterval(() => {
@@ -193,6 +201,7 @@ export default {
       }
       window.localStorage.setItem('gymValue', this.gymValue)
       window.localStorage.setItem('seatNumber', this.seatNumber)
+      window.localStorage.setItem('delayTime', this.delayTime)
 
       this.timer2 = setInterval(() => {
         this.polling()
@@ -230,6 +239,7 @@ export default {
   mounted() {
     this.gymValue = window.localStorage.getItem('gymValue') || this.gymValue
     this.seatNumber = window.localStorage.getItem('seatNumber') || this.seatNumber
+    this.delayTime = +window.localStorage.getItem('delayTime') || this.delayTime
 
     this.getCourseList()
     setInterval(() => {
