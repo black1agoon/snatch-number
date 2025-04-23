@@ -75,8 +75,9 @@ import { formatDate, getNowTime } from '@/assets/utils'
 import { getSign } from '@/assets/sign'
 
 const WXAPPCHATID = {
-  '28161525': 'eyJuYW1lIjoi6IOh6LaF576kIiwicGhvbmUiOiIxNTg4ODM0MzgwOCIsImFjY291bnRJZCI6MjIxODgxMDksImltcGVyc29uYXRlZCI6ZmFsc2UsImNoYW5uZWwiOm51bGwsImlwIjpudWxsLCJ0cyI6MTc0MjM3NDU2MzI3OX0=.i28+GF7iP2nWdzMt/qRGF8cGPw2tOGPnp76nmWdoaMU=',
-  '9404475': 'eyJuYW1lIjoi5a2ZIiwicGhvbmUiOiIxNTk2ODMzMjcyMCIsImFjY291bnRJZCI6MjQwNTMzNywiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjc4ODQ2NDI5NTkxfQ==./1/zHBoKV2Uk84SYuE00fy0hKzszic2forWHPyD49aE=',
+  '28161525': 'eyJuYW1lIjoi6IOh6LaF576kIiwicGhvbmUiOiIxNTg4ODM0MzgwOCIsImFjY291bnRJZCI6MjIxODgxMDksImltcGVyc29uYXRlZCI6ZmFsc2UsImNoYW5uZWwiOm51bGwsImlwIjpudWxsLCJ0cyI6MTc0MjM3NDU2MzI3OX0=.i28+GF7iP2nWdzMt/qRGF8cGPw2tOGPnp76nmWdoaMU=', // 阿超
+  '26906995': 'eyJuYW1lIjoi6YOt6byOIiwicGhvbmUiOiIxMzc1MDc1MTMxNiIsImFjY291bnRJZCI6MjE1MTQxNDcsImltcGVyc29uYXRlZCI6ZmFsc2UsImNoYW5uZWwiOm51bGwsImlwIjpudWxsLCJ0cyI6MTc0MzY0ODQ0MzUzMn0=.F+tr7IqsDdG2AU3WlnuCOk3/AD+iO0oj40Pp6koD1oU=', // 郭顶
+  '9404475': 'eyJuYW1lIjoi5a2ZIiwicGhvbmUiOiIxNTk2ODMzMjcyMCIsImFjY291bnRJZCI6MjQwNTMzNywiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjc4ODQ2NDI5NTkxfQ==./1/zHBoKV2Uk84SYuE00fy0hKzszic2forWHPyD49aE=', // 情迷
   // '5789034': 'eyJuYW1lIjoi6JSh5Li55YekIiwicGhvbmUiOiIxODc2NzMzOTI3NyIsImFjY291bnRJZCI6NTU5OTcxMCwiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjc5ODgxMTYzNzM1fQ==.CsVE0bEHIZ2p1uVkV7mIGWELkmuBiXkZQ/JQMftkgT8=',
   // '5336840': 'eyJuYW1lIjoi6IuP5Li96ImzIiwicGhvbmUiOiIxNTMwNTgzODU4OCIsImFjY291bnRJZCI6NTYwMTc3NywiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjc5NjI0MjAyODQ0fQ==.Ki6ru23WS60ViDLkCjoWVU4VNs/vRC90qPOnCzqwqyY=',
   // '5783220': 'eyJuYW1lIjoi57qq5Li954eVIiwicGhvbmUiOiIxMzc1NzM4OTk5MCIsImFjY291bnRJZCI6NTYwMDI4NSwiaW1wZXJzb25hdGVkIjpmYWxzZSwiaXAiOm51bGwsInRzIjoxNjgxNzEyMjM2ODI2fQ==.rpSdozqYvVU5gCrmF5hKwxGV/YRyTGzP2GxUO3CmUWM=',
@@ -205,7 +206,7 @@ export default {
 
       this.timer2 = setInterval(() => {
         this.polling()
-      }, 1)
+      }, 100)
     },
     getCourseList() {
       axios({

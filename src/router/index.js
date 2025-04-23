@@ -6,6 +6,16 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/menu',
+    name: 'menu-view',
+    component: () => import('../views/menu.vue')
+  },
+  {
+    path: '/dabao',
+    name: 'dabao-view',
+    component: () => import('../views/dabao.vue')
+  },
+  {
     path: '/:cardContractId',
     name: 'home',
     component: HomeView
