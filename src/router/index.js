@@ -6,12 +6,12 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/menu',
-    name: 'menu-view',
+    path: '/getMenu/:token',
+    name: 'get-menu-view',
     component: () => import('../views/menu.vue')
   },
   {
-    path: '/dabao',
+    path: '/dabao/index',
     name: 'dabao-view',
     component: () => import('../views/dabao.vue')
   },

@@ -14,7 +14,8 @@ export default {
   name: 'menu-view',
   data() {
     return {
-      menuList: []
+      menuList: [],
+      token: null,
     }
   },
   methods: {
@@ -23,7 +24,7 @@ export default {
       let today = new Date()
       let nextDate = new Date(today)
       nextDate.setDate(today.getDate() + 7)
-      data.append('token', '9ed9d05c3ed1208bad788f7b2bb05330')
+      data.append('token', this.token)
       data.append('offset', 0)
       data.append('page', 10)
       data.append('startdate', formatDate(today, 'yyyy-MM-dd'))
@@ -39,12 +40,33 @@ export default {
         data
       }).then(res => {
         // console.log(res.data.data.cookbooks[0].lunch.content)
-        this.menuList = res.data.data.cookbooks[0].lunch.content
+        let data = res.data || {}
+        if (!res.data.code) {
+          this.$message({
+            type: 'error',
+            message: data.msg,
+          })
+        }
+        let cookbooks = data.data?.cookbooks || []
+        if (cookbooks.length > 0) {
+          this.menuList = cookbooks[0].lunch?.content
+        }
       })
     }
   },
   mounted() {
     this.getMenu()
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (to.params.token) {
+        if (to.params.token === 'xuyq') {
+          vm.token = '9ed9d05c3ed1208bad788f7b2bb05330'
+        } else {
+          vm.token = to.params.token
+        }
+      }
+    })
   }
 }
 </script>
